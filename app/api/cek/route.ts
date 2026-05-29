@@ -21,8 +21,15 @@ function jsonResponse(body: unknown, status = 200) {
 }
 
 function getData(): Siswa[] {
-  const raw = process.env.TKA_DATA_JSON;
+  let raw = process.env.TKA_DATA_JSON?.trim();
   if (!raw) throw new Error('TKA_DATA_JSON belum di-set di Environment Variables Vercel.');
+
+  // Antisipasi jika user menyalin satu baris penuh dari .env.local:
+  // TKA_DATA_JSON='[...]'
+  if (raw.startsWith('TKA_DATA_JSON=')) raw = raw.slice('TKA_DATA_JSON='.length).trim();
+  if ((raw.startsWith("'") && raw.endsWith("'")) || (raw.startsWith('"') && raw.endsWith('"'))) {
+    raw = raw.slice(1, -1);
+  }
 
   const parsed = JSON.parse(raw) as Siswa[];
   return parsed.filter((s) => s.nisn && s.ttl && s.nama && s.nisn !== 'None');
