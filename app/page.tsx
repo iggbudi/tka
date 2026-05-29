@@ -76,7 +76,7 @@ export default function Home() {
           </div>
         )}
 
-        <div className="footer">Sistem Informasi Nilai TKA</div>
+        <div className="footer">Sistem Informasi Nilai TKA<br />Mirroring by DBS</div>
       </section>
     </main>
   );
