@@ -45,38 +45,66 @@ export default function Home() {
 
   return (
     <main className="page">
-      <section className="card">
-        <div className="logo">
-          <h1>Cek Nilai TKA</h1>
-          <p>Login menggunakan NISN dan tanggal lahir</p>
+      <section className="hero">
+        <div className="heroContent">
+          <div className="badge">Portal Nilai Siswa</div>
+          <h1>Sistem Informasi Nilai TKA</h1>
+          <p>
+            Cek hasil TKA secara aman menggunakan NISN dan tanggal lahir yang
+            sesuai dengan data sekolah.
+          </p>
+
+          <div className="steps" aria-label="Langkah cek nilai">
+            <div className="step"><b>1</b><span>Masukkan NISN</span></div>
+            <div className="step"><b>2</b><span>Isi tanggal lahir</span></div>
+            <div className="step"><b>3</b><span>Lihat nilai</span></div>
+          </div>
         </div>
 
-        <form onSubmit={cekNilai}>
-          <input
-            type="text"
-            inputMode="numeric"
-            autoComplete="off"
-            value={nisn}
-            onChange={(e) => setNisn(e.target.value.replace(/\D/g, ''))}
-            placeholder="Masukkan NISN"
-            required
-          />
-          <input type="date" value={ttl} onChange={(e) => setTtl(e.target.value)} required />
-          <button type="submit" disabled={loading}>{loading ? 'Memeriksa...' : 'Masuk & Cek Nilai'}</button>
-        </form>
-
-        {error && <div className="error">{error}</div>}
-
-        {result && (
-          <div className="hasil">
-            <div className="item"><span>Nama</span><b>{result.nama}</b></div>
-            <div className="item"><span>NISN</span><b>{result.nisn}</b></div>
-            <div className="item"><span>Matematika</span><b>{result.mtk}</b></div>
-            <div className="item"><span>Bahasa Indonesia</span><b>{result.indo}</b></div>
+        <section className="card">
+          <div className="logo">
+            <h2>Cek Nilai TKA</h2>
+            <p>Login menggunakan data siswa</p>
           </div>
-        )}
 
-        <div className="footer">Sistem Informasi Nilai TKA<br />Mirroring by DBS</div>
+          <form onSubmit={cekNilai}>
+            <label htmlFor="nisn">NISN</label>
+            <input
+              id="nisn"
+              type="text"
+              inputMode="numeric"
+              autoComplete="off"
+              value={nisn}
+              onChange={(e) => setNisn(e.target.value.replace(/\D/g, ''))}
+              placeholder="Contoh: 0012345678"
+              required
+            />
+
+            <label htmlFor="ttl">Tanggal Lahir</label>
+            <input id="ttl" type="date" value={ttl} onChange={(e) => setTtl(e.target.value)} required />
+
+            <button type="submit" disabled={loading}>
+              {loading && <span className="spinner" aria-hidden="true" />}
+              {loading ? 'Memeriksa...' : 'Masuk & Cek Nilai'}
+            </button>
+          </form>
+
+          {error && <div className="error">{error}</div>}
+
+          {result && (
+            <div className="hasil">
+              <div className="success">✓ Data berhasil ditemukan</div>
+              <h3>{result.nama}</h3>
+              <span className="nisnBadge">NISN {result.nisn}</span>
+              <div className="scoreGrid">
+                <div className="scoreCard"><span>Matematika</span><b>{result.mtk}</b></div>
+                <div className="scoreCard"><span>Bahasa Indonesia</span><b>{result.indo}</b></div>
+              </div>
+            </div>
+          )}
+
+          <div className="footer">Sistem Informasi Nilai TKA<br />Mirroring by DBS</div>
+        </section>
       </section>
     </main>
   );
