@@ -30,6 +30,8 @@ function getData(): Siswa[] {
   if ((raw.startsWith("'") && raw.endsWith("'")) || (raw.startsWith('"') && raw.endsWith('"'))) {
     raw = raw.slice(1, -1);
   }
+  // Perbaiki hasil copy dari file .env lama yang memakai escape shell untuk apostrof.
+  raw = raw.replace(/'\\''/g, "'");
 
   const parsed = JSON.parse(raw) as Siswa[];
   return parsed.filter((s) => s.nisn && s.ttl && s.nama && s.nisn !== 'None');

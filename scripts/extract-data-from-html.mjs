@@ -11,5 +11,6 @@ if (!match) {
 }
 
 const data = JSON.parse(match[1]).filter((s) => s.nisn && s.ttl && s.nama && s.nisn !== 'None');
-writeFileSync(output, `TKA_DATA_JSON='${JSON.stringify(data).replace(/'/g, "'\\''")}'\n`);
+const json = JSON.stringify(data);
+writeFileSync(output, `TKA_DATA_JSON=${json}\n`);
 console.log(`Berhasil menulis ${data.length} data ke ${output}`);
